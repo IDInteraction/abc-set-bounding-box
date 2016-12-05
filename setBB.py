@@ -15,6 +15,7 @@ def getbbox(event, x, y, flags, param):
 
     if event == cv2.cv.CV_EVENT_LBUTTONDOWN:
         refpt = [(x,y)]
+        cv2.putText(img,str(refpt), (200,200), cv2.cv.CV_FONT_HERSHEY_SIMPLEX, 1, 255, 2)
     elif  event == cv2.cv.CV_EVENT_LBUTTONUP:
         refpt.append((x,y))
         cv2.rectangle(img, refpt[0], refpt[1], (0, 255, 0), 2)
@@ -27,7 +28,7 @@ cv2.setMouseCallback(WINDOW_NAME, getbbox)
 refpt = []
 
 if(len(sys.argv) > 2):
-    print("Skipping " + sys.argv[2] + " ms")
+    print >> sys.stderr, ("Skipping " + sys.argv[2] + " ms")
     video.set(cv2.cv.CV_CAP_PROP_POS_MSEC, int(sys.argv[2]))
 
 got, img = video.read()
@@ -47,7 +48,7 @@ while got:
         if w < 0 or h < 0:
             print("Bounding box must be dragged from top left to bottom right")
             quit()
-        print(str(x) + "," + str(y) + "," + str(w) + "," + str(h))
+        print(str(x) + "," + str(y) + "," + str(w) + "," + str(h) + "," + str(int(frame)))
         quit()
 
     key = cv2.waitKey(0) & 0xFF
