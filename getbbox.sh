@@ -7,6 +7,9 @@
 # last frame of this video (which will be the bounding-box we
 # require for the experiment proper)
 
+echo "Broken code - skipping start of video in mencoder doens't work properly"
+exit 0
+
 participant=$1
 vidname=$participant"_video.mp4"
 skipname=$participant"_video.skip"
@@ -22,20 +25,27 @@ echo $tstart
 faceframe=$(echo $faceinfo | cut -f5 -d,  )
 echo $faceframe
 
+# Need to count frames after the start of the experiment
 processframes=$(printf "%.0f" $(bc <<< "scale=0;$faceframe - ($tstart*50)"))
 echo $processframes
 
 # Extract frames
+
+# clean up first in case of failure on previous Run
+rm 000*.tga
 mplayer -ss $tstart -frames  $processframes -vo tga  /mnt/IDInteraction/dual_screen_free_experiment/video/experiment2_individual_streams/high_quality/front/$vidname
 
 ls *.tga | sort -r > framelist.txt
 
+# OpenCV can read in a sequence of images; should be able to avoid this step
+# and hence avoid recompressing the video
 mencoder mf://@framelist.txt -mf w=640:h=360:fps=50:type=tga -ovc x264 -x264encopts pass=1:preset=veryslow:fast_pskip=0:tune=film:frameref=15:bitrate=3000:threads=auto -o CppMTvid.avi
 
 # Run object tracking on reversed video
 ~/CppMT/cmt CppMTvid.avi --bbox $(echo $faceinfo | cut -f1-4 -d,) --output-file tempbbox.csv
 
-# extract bounding box parameters for last frame of this
+# extract bounding box parameters for last frame of reversed video
+# which will be the bounding box at the experiment start frame
 tail -1 tempbbox.csv |awk -F, '{OFS=",";print $11,$12,$6,$7}' > $outbbname
 
 echo $faceinfo
