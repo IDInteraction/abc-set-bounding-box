@@ -17,7 +17,7 @@ eye_cascade = cv2.CascadeClassifier('/usr/share/opencv/haarcascades/haarcascade_
 
 video = cv2.VideoCapture(sys.argv[1])
 
-cv2.namedWindow(WINDOW_NAME)
+#cv2.namedWindow(WINDOW_NAME)
 
 if(len(sys.argv) > 2):
     print >> sys.stderr, ("Skipping " + sys.argv[2] + " ms")
