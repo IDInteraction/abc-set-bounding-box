@@ -49,7 +49,7 @@ ls *.tga | sort -r  |head -$processframes > framelist.txt
 mencoder mf://@framelist.txt -mf w=640:h=360:fps=50:type=tga -ovc x264 -x264encopts pass=1:preset=veryslow:fast_pskip=0:tune=film:frameref=15:bitrate=3000:threads=auto -o CppMTvid.avi
 
 # Run object tracking on reversed video
-~/CppMT/cmt CppMTvid.avi --bbox $(echo $faceinfo | cut -f1-4 -d,) --output-file tempbbox.csv
+./cmt CppMTvid.avi --bbox $(echo $faceinfo | cut -f1-4 -d,) --output-file tempbbox.csv
 
 # extract bounding box parameters for last frame of reversed video
 # which will be the bounding box at the experiment start frame
