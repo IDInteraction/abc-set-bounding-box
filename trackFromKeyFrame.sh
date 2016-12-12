@@ -66,7 +66,7 @@ tail -n +3 reversebbox.csv |tac |  cut -d, -f3- |awk -v OFFSET=`cat $skipfile` -
 # Run object tracking from given frame and bbox
 echo Running cmt on forward video
 
-./cmt --bbox=$(echo $faceinfo | cut -f1-4 -d,) --with-rotation --skip-ms=$(($faceframe*20)) --output-file=postDetectionbbox.csv $1
+./cmt --bbox=$(echo $faceinfo | cut -f1-4 -d,) --with-rotation --skip-ms=$(($faceframe*20)) --output-file=postDetectionbbox.csv $inputvideo
 
 
 head -1 postDetectionbbox.csv > combinedTracking.csv
