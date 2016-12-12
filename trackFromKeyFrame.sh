@@ -61,7 +61,7 @@ echo Running cmt on reversed video
 # Reverse all but the first (header) line, and 1st line
 # 1st data line is the given BBOX.  We pick a copy of this on the forward run
 # remove first 2 fields and regenerate with correct time and frame number
-tail -n +3 reversebbox.csv |tac |  cut -d, -f3- |awk -v OFFSET=`cat $skipfile` -d, '{print (FNR-1)+(OFFSET/20) "," OFFSET + (FNR-1)*20 "," $0 }' > preDetectionbbox.csv
+tail -n +3 reversebbox.csv |tac |  cut -d, -f3- |awk -v OFFSET=$(cat $skipfile)  '{print (FNR-1)+(OFFSET/20) "," OFFSET + (FNR-1)*20 "," $0 }' > preDetectionbbox.csv
 
 # Run object tracking from given frame and bbox
 echo Running cmt on forward video
