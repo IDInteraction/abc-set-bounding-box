@@ -57,4 +57,4 @@ mencoder mf://@framelist.txt -mf w=640:h=360:fps=50:type=tga -ovc x264 -x264enco
 tail -1 tempbbox.csv |awk -F, '{OFS=",";print $11,$12,$6,$7}' > outbbox.csv
 
 # Tidy up
-rm 000*.tga tempbbox.csv CppMTvid.avi framelist.txt divx2pass.log divx2pass.log.mbtree
+rm 000*.tga  CppMTvid.avi framelist.txt divx2pass.log divx2pass.log.mbtree # tempbbox.csv
